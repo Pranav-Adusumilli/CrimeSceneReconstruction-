@@ -1,0 +1,90 @@
+{
+  "unified_score": {
+    "total_score": 0.7385,
+    "energy": -0.7385,
+    "components": {
+      "semantic": 0.7833,
+      "spatial": 0.9994,
+      "physical": 0.9229,
+      "visual": 0.5152,
+      "probabilistic": 0.8162,
+      "multiview": 0.5,
+      "human": 0.6537
+    },
+    "details": {
+      "semantic": {
+        "score": 0.7832676748434704,
+        "clip_similarity": 0.6332020163536072,
+        "object_recall": 1.0,
+        "relationship_satisfaction": 0.8333333333333334
+      },
+      "spatial": {
+        "score": 0.9993818181818181,
+        "relationship_violations": 0.0,
+        "position_ordering_errors": 0.0,
+        "depth_ordering_errors": 0.0,
+        "interpenetration_score": 0.0030909090909090908
+      },
+      "physical": {
+        "score": 0.9229124278336934,
+        "gravity_alignment": 1.0,
+        "support_relations": 1.0,
+        "floor_contact": 0.76,
+        "scale_realism": 0.9316497113347739
+      },
+      "visual": {
+        "score": 0.5152193612655005,
+        "aesthetic_quality": 0.6478096326192221,
+        "noise_residual": 0.38145896792411804,
+        "sharpness": 0.4721927261352539
+      },
+      "probabilistic": {
+        "score": 0.816211218899515,
+        "relation_spatial_ll": 3.963543994909265,
+        "cooccurrence_ll": -6.0,
+        "mean_log_likelihood": -0.5091140012726838
+      },
+      "multiview": {
+        "note": "skipped_or_insufficient_views"
+      },
+      "human": {
+        "score": 0.6536947392899466,
+        "realism_probe": 0.5185635257603224,
+        "scene_coherence": 0.6295461505651474,
+        "uncanny_penalty": 0.0
+      }
+    },
+    "weights_used": {
+      "w_semantic": 0.2,
+      "w_spatial": 0.15,
+      "w_physical": 0.1,
+      "w_visual": 0.15,
+      "w_probabilistic": 0.1,
+      "w_multiview": 0.1,
+      "w_human": 0.2
+    },
+    "computation_time_s": 1.98,
+    "hypothesis_id": 2
+  },
+  "optimization": {
+    "method": "simulated_annealing",
+    "best_energy": -0.32382,
+    "best_score": 0.32382,
+    "total_iterations": 101,
+    "total_time_s": 0.45,
+    "convergence_iteration": 0,
+    "num_top_k": 3,
+    "trajectory_length": 101
+  },
+  "correction": null,
+  "scoring_weights": {
+    "w_semantic": 0.2,
+    "w_spatial": 0.15,
+    "w_physical": 0.1,
+    "w_visual": 0.15,
+    "w_probabilistic": 0.1,
+    "w_multiview": 0.1,
+    "w_human": 0.2
+  },
+  "pipeline_time_s": 216.52
+}

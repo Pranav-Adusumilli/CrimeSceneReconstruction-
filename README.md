@@ -230,6 +230,42 @@ CrimeSceneReconstruction/
 
 ---
 
+## Sample Results
+
+> Input: *"A dimly lit bedroom with a broken window, a bloodstained mattress on the floor, and a knife near the doorway"*
+
+### Scene Graph
+<p align="center">
+  <img src="outputs/run_20260302_025355/scene_graphs/scene_graph.png" width="500" alt="Scene Graph">
+</p>
+
+### Pass 1 — Base Generation
+<p align="center">
+  <img src="outputs/run_20260302_025355/images/pass1_base.png" width="400" alt="Pass 1 Base">
+</p>
+
+### MiDaS Depth Map
+<p align="center">
+  <img src="outputs/run_20260302_025355/depth_maps/midas_depth_h1.png" width="400" alt="MiDaS Depth">
+</p>
+
+### Final Reconstruction (Pass 2 — Depth-Conditioned)
+<p align="center">
+  <img src="outputs/run_20260302_025355/images/reconstruction_h1.png" width="400" alt="Final Reconstruction">
+</p>
+
+### Spatial Layout & Conditioning
+| Layout Preview | Segmentation Map | Composite Conditioning |
+|:-:|:-:|:-:|
+| <img src="outputs/run_20260302_025355/images/layout_preview.png" width="250"> | <img src="outputs/run_20260302_025355/images/segmentation_map.png" width="250"> | <img src="outputs/run_20260302_025355/images/composite_conditioning.png" width="250"> |
+
+### Room-Aware Depth Map
+<p align="center">
+  <img src="outputs/run_20260302_025355/depth_maps/depth_map_h1.png" width="400" alt="Synthetic Depth Map">
+</p>
+
+---
+
 ## Key Results
 
 ### Bedroom Scene: S(R) = 0.739
@@ -275,7 +311,6 @@ CrimeSceneReconstruction/
 - **spaCy** — NLP parsing (en_core_web_sm)
 - **NetworkX** — scene graph construction
 - **MiDaS** — monocular depth estimation
-- **reportlab** — PDF report generation
 - **Pillow / matplotlib / scipy / numpy** — image processing and visualization
 
 ---

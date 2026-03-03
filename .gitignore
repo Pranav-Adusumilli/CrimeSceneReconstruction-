@@ -7,6 +7,17 @@ models/
 # ── Pipeline outputs (generated, transient) ──
 outputs/
 
+# ── Keep sample results from best run ──
+!outputs/run_20260302_025355/
+!outputs/run_20260302_025355/images/
+!outputs/run_20260302_025355/images/**
+!outputs/run_20260302_025355/depth_maps/
+!outputs/run_20260302_025355/depth_maps/**
+!outputs/run_20260302_025355/scene_graphs/
+!outputs/run_20260302_025355/scene_graphs/**
+!outputs/run_20260302_025355/reports/
+!outputs/run_20260302_025355/reports/**
+
 # ── Virtual environments ──
 .venv/
 venv/

@@ -1,0 +1,281 @@
+{
+  "timestamp": "2026-03-02T02:52:39.342290",
+  "pipeline": "CrimeSceneReconstruction v1.0",
+  "stages": {
+    "text_understanding": {
+      "raw_input": "A dimly lit bedroom with a broken window, a bloodstained mattress on the floor, and a knife near the doorway",
+      "scene_type_detected": "bedroom",
+      "objects_extracted": [
+        "bedroom",
+        "doorway",
+        "floor",
+        "knife",
+        "mattress",
+        "window"
+      ],
+      "attributes_extracted": {
+        "bedroom": [
+          "lit"
+        ],
+        "window": [
+          "broken"
+        ],
+        "mattress": [
+          "bloodstained"
+        ]
+      },
+      "relationships_extracted": [
+        {
+          "subject": "bedroom",
+          "predicate": "with",
+          "object": "window"
+        },
+        {
+          "subject": "mattress",
+          "predicate": "on",
+          "object": "floor"
+        },
+        {
+          "subject": "knife",
+          "predicate": "near",
+          "object": "doorway"
+        }
+      ],
+      "num_sentences": 1
+    },
+    "scene_graph": {
+      "scene_type": "bedroom",
+      "nodes": [
+        {
+          "id": "bedroom",
+          "attributes": [
+            "lit"
+          ]
+        },
+        {
+          "id": "doorway",
+          "attributes": []
+        },
+        {
+          "id": "floor",
+          "attributes": []
+        },
+        {
+          "id": "knife",
+          "attributes": []
+        },
+        {
+          "id": "mattress",
+          "attributes": [
+            "bloodstained"
+          ]
+        },
+        {
+          "id": "window",
+          "attributes": [
+            "broken"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "source": "bedroom",
+          "target": "window",
+          "relation": "with"
+        },
+        {
+          "source": "knife",
+          "target": "doorway",
+          "relation": "near"
+        },
+        {
+          "source": "mattress",
+          "target": "floor",
+          "relation": "on"
+        }
+      ]
+    },
+    "hypotheses": {
+      "count": 3,
+      "ranking": [
+        {
+          "id": 2,
+          "confidence": 0.831,
+          "description": "Hypothesis 2:\n  bedroom (lit): right, midground\n  doorway: center, midground\n  floor: left, midground\n  knife: right, midground\n  mattress (bloodstained): center, midground\n  window (broken): center, midground"
+        },
+        {
+          "id": 1,
+          "confidence": 0.809,
+          "description": "Hypothesis 1:\n  bedroom (lit): right, midground\n  doorway: center, midground\n  floor: left, midground\n  knife: center, foreground\n  mattress (bloodstained): center, midground\n  window (broken): center, midground"
+        },
+        {
+          "id": 3,
+          "confidence": 0.784,
+          "description": "Hypothesis 3:\n  bedroom (lit): right, midground\n  doorway: center, midground\n  floor: left, midground\n  knife: right, midground\n  mattress (bloodstained): center, midground\n  window (broken): right, foreground"
+        }
+      ]
+    },
+    "spatial_layout": {
+      "resolution": 512,
+      "scene_type": "bedroom",
+      "hypothesis_id": 2,
+      "depth_ordering": [
+        "knife",
+        "floor",
+        "mattress",
+        "window",
+        "doorway",
+        "bedroom"
+      ],
+      "regions": [
+        {
+          "name": "knife",
+          "bbox": [
+            "319",
+            "373",
+            "355",
+            "415"
+          ],
+          "depth_order": 0,
+          "attributes": []
+        },
+        {
+          "name": "floor",
+          "bbox": [
+            "150",
+            "296",
+            "184",
+            "332"
+          ],
+          "depth_order": 1,
+          "attributes": []
+        },
+        {
+          "name": "mattress",
+          "bbox": [
+            "239",
+            "224",
+            "277",
+            "260"
+          ],
+          "depth_order": 2,
+          "attributes": [
+            "bloodstained"
+          ]
+        },
+        {
+          "name": "window",
+          "bbox": [
+            "283",
+            "206",
+            "327",
+            "242"
+          ],
+          "depth_order": 3,
+          "attributes": [
+            "broken"
+          ]
+        },
+        {
+          "name": "doorway",
+          "bbox": [
+            "296",
+            "332",
+            "336",
+            "376"
+          ],
+          "depth_order": 4,
+          "attributes": []
+        },
+        {
+          "name": "bedroom",
+          "bbox": [
+            "377",
+            "231",
+            "421",
+            "271"
+          ],
+          "depth_order": 5,
+          "attributes": [
+            "lit"
+          ]
+        }
+      ]
+    },
+    "generation_params": {
+      "prompt": "(crime scene photograph of a bedroom:1.2), (doorway:1.3), (floor:1.3), (knife:1.3), (bloodstained mattress:1.3), (broken window:1.3), (photorealistic:1.3), forensic photography, indoor scene, harsh flash lighting, sharp focus, detailed, 8k",
+      "negative_prompt": "blurry, low quality, distorted, cartoon, anime, sketch, watermark, text, signature, abstract, painting, drawing, illustration, render, 3d, cgi, unrealistic, deformed, disfigured, bad anatomy, extra limbs, floating objects, oversaturated, underexposed, overexposed, noise, grain, out of focus, cropped, worst quality, low resolution, jpeg artifacts",
+      "num_inference_steps": 35,
+      "guidance_scale": 9.0,
+      "seed": 42,
+      "resolution": "512x512"
+    },
+    "evaluation": {
+      "total_score": 0.7385,
+      "energy": -0.7385,
+      "components": {
+        "semantic": 0.7833,
+        "spatial": 0.9994,
+        "physical": 0.9229,
+        "visual": 0.5152,
+        "probabilistic": 0.8162,
+        "multiview": 0.5,
+        "human": 0.6537
+      },
+      "details": {
+        "semantic": {
+          "score": 0.7832676748434704,
+          "clip_similarity": 0.6332020163536072,
+          "object_recall": 1.0,
+          "relationship_satisfaction": 0.8333333333333334
+        },
+        "spatial": {
+          "score": 0.9993818181818181,
+          "relationship_violations": 0.0,
+          "position_ordering_errors": 0.0,
+          "depth_ordering_errors": 0.0,
+          "interpenetration_score": 0.0030909090909090908
+        },
+        "physical": {
+          "score": 0.9229124278336934,
+          "gravity_alignment": 1.0,
+          "support_relations": 1.0,
+          "floor_contact": 0.76,
+          "scale_realism": 0.9316497113347739
+        },
+        "visual": {
+          "score": 0.5152193612655005,
+          "aesthetic_quality": 0.6478096326192221,
+          "noise_residual": 0.38145896792411804,
+          "sharpness": 0.4721927261352539
+        },
+        "probabilistic": {
+          "score": 0.816211218899515,
+          "relation_spatial_ll": 3.963543994909265,
+          "cooccurrence_ll": -6.0,
+          "mean_log_likelihood": -0.5091140012726838
+        },
+        "multiview": {
+          "note": "skipped_or_insufficient_views"
+        },
+        "human": {
+          "score": 0.6536947392899466,
+          "realism_probe": 0.5185635257603224,
+          "scene_coherence": 0.6295461505651474,
+          "uncanny_penalty": 0.0
+        }
+      },
+      "weights_used": {
+        "w_semantic": 0.2,
+        "w_spatial": 0.15,
+        "w_physical": 0.1,
+        "w_visual": 0.15,
+        "w_probabilistic": 0.1,
+        "w_multiview": 0.1,
+        "w_human": 0.2
+      },
+      "computation_time_s": 1.98,
+      "hypothesis_id": 2
+    }
+  }
+}

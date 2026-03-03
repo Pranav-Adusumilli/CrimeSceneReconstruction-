@@ -1,0 +1,28 @@
+{
+  "run_id": "20260302_025355",
+  "timestamp": "2026-03-02T02:56:11.969666",
+  "input_text": "A dimly lit bedroom with a broken window, a bloodstained mattress on the floor, and a knife near the doorway",
+  "scene_type": "bedroom",
+  "num_objects_detected": 6,
+  "num_hypotheses": 3,
+  "best_overall_score": 0.7385,
+  "output_directory": "C:\\Users\\prana\\OneDrive\\Desktop\\CrimeSceneReconstruction\\outputs\\run_20260302_025355",
+  "contents": {
+    "images": [
+      "composite_conditioning.png",
+      "layout_preview.png",
+      "pass1_base.png",
+      "pass2_midas_depth.png",
+      "reconstruction_h1.png",
+      "segmentation_map.png"
+    ],
+    "depth_maps": [
+      "depth_map_h1.png",
+      "midas_depth_h1.png"
+    ],
+    "multiview": [],
+    "scene_graphs": [
+      "scene_graph.png"
+    ]
+  }
+}
