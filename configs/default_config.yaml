@@ -1,0 +1,100 @@
+# ============================================================
+# Probabilistic Multi-View Crime Scene Reconstruction
+# Default Configuration
+# ============================================================
+
+project:
+  name: "CrimeSceneReconstruction"
+  version: "1.0.0"
+  output_dir: "outputs"
+
+# --- Hardware ---
+hardware:
+  device: "cuda"
+  dtype: "float16"
+  vram_limit_gb: 6.0
+  batch_size: 1
+  resolution: 512
+  enable_cpu_offload: true
+  enable_attention_slicing: true
+  enable_vae_slicing: true
+
+# --- Models ---
+models:
+  stable_diffusion:
+    model_id: "SG161222/Realistic_Vision_V5.1_noVAE"
+    revision: null
+    torch_dtype: "float16"
+    cache_dir: "models/stable_diffusion"
+  controlnet:
+    model_id: "lllyasviel/sd-controlnet-depth"
+    torch_dtype: "float16"
+    cache_dir: "models/controlnet"
+  vae:
+    model_id: "stabilityai/sd-vae-ft-mse"
+    torch_dtype: "float16"
+    cache_dir: "models/vae"
+  midas:
+    model_id: "Intel/dpt-hybrid-midas"
+    cache_dir: "models/midas"
+  clip:
+    model_name: "ViT-B-32"
+    pretrained: "openai"
+
+# --- NLP ---
+nlp:
+  spacy_model: "en_core_web_sm"
+  scene_types:
+    - bedroom
+    - living_room
+    - kitchen
+    - bathroom
+    - hallway
+    - garage
+    - basement
+    - office
+    - alley
+    - parking_lot
+    - street
+    - warehouse
+    - unknown
+
+# --- Generation ---
+generation:
+  num_inference_steps: 35
+  guidance_scale: 9.0
+  negative_prompt: "blurry, low quality, distorted, cartoon, anime, sketch, watermark, text, signature, abstract, painting, drawing, illustration, render, 3d, cgi, unrealistic, deformed, disfigured, bad anatomy, extra limbs, floating objects, oversaturated, underexposed, overexposed, noise, grain, out of focus, cropped, worst quality, low resolution, jpeg artifacts"
+  seed: 42
+  num_hypotheses: 3
+  two_pass: true
+  controlnet_conditioning_scale: 0.8
+
+# --- Multi-View ---
+multiview:
+  views:
+    - name: "front"
+      depth_shift: 0.0
+      prompt_suffix: ", front view, eye level"
+    - name: "left"
+      depth_shift: -0.15
+      prompt_suffix: ", viewed from the left side, angled perspective"
+    - name: "right"
+      depth_shift: 0.15
+      prompt_suffix: ", viewed from the right side, angled perspective"
+    - name: "overhead"
+      depth_shift: 0.3
+      prompt_suffix: ", overhead view, looking down, bird's eye"
+
+# --- Data Paths ---
+data:
+  coco_dir: "Data/COCO"
+  visual_genome_dir: "Data/VisualGenome"
+  clevr_dir: "Data/Clevr/CLEVR_v1.0"
+  object_alias_file: "Data/VisualGenome/object_alias.txt"
+  relationship_alias_file: "Data/VisualGenome/relationship_alias.txt"
+
+# --- Evaluation ---
+evaluation:
+  clip_threshold: 0.2
+  spatial_consistency_weight: 0.3
+  object_detection_threshold: 0.5

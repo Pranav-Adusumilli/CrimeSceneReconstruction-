@@ -1,0 +1,21 @@
+# Probabilistic Multi-View Crime Scene Reconstruction
+# Requirements file for pip install -r requirements.txt
+
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+diffusers>=0.25.0
+transformers>=4.35.0
+accelerate>=0.25.0
+safetensors>=0.4.0
+Pillow>=10.0.0
+scipy>=1.11.0
+networkx>=3.0
+matplotlib>=3.8.0
+spacy>=3.7.0
+open-clip-torch>=2.24.0
+ftfy>=6.1.0
+regex>=2023.8.8
+tqdm>=4.66.0
+pyyaml>=6.0.0
+numpy>=1.24.0

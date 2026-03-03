@@ -1,0 +1,235 @@
+# ============================================================
+# Research-Grade Unified Multi-Objective Reconstruction
+# Configuration
+# ============================================================
+# Extends default_config.yaml with scoring, optimization,
+# correction, segmentation, and experiment settings.
+
+project:
+  name: "CrimeSceneReconstruction-Research"
+  version: "2.0.0"
+  output_dir: "outputs"
+
+# --- Hardware ---
+hardware:
+  device: "cuda"
+  dtype: "float16"
+  vram_limit_gb: 6.0
+  batch_size: 1
+  resolution: 512
+  enable_cpu_offload: true
+  enable_attention_slicing: true
+  enable_vae_slicing: true
+
+# --- Models ---
+models:
+  stable_diffusion:
+    model_id: "SG161222/Realistic_Vision_V5.1_noVAE"
+    revision: null
+    torch_dtype: "float16"
+    cache_dir: "models/stable_diffusion"
+  controlnet:
+    model_id: "lllyasviel/sd-controlnet-depth"
+    torch_dtype: "float16"
+    cache_dir: "models/controlnet"
+  vae:
+    model_id: "stabilityai/sd-vae-ft-mse"
+    torch_dtype: "float16"
+    cache_dir: "models/vae"
+  midas:
+    model_id: "Intel/dpt-hybrid-midas"
+    cache_dir: "models/midas"
+  clip:
+    model_name: "ViT-B-32"
+    pretrained: "openai"
+
+# --- NLP ---
+nlp:
+  spacy_model: "en_core_web_sm"
+  scene_types:
+    - bedroom
+    - living_room
+    - kitchen
+    - bathroom
+    - hallway
+    - garage
+    - basement
+    - office
+    - alley
+    - parking_lot
+    - street
+    - warehouse
+    - unknown
+
+# --- Generation ---
+generation:
+  num_inference_steps: 35
+  guidance_scale: 9.0
+  negative_prompt: "blurry, low quality, distorted, cartoon, anime, sketch, watermark, text, signature, abstract, painting, drawing, illustration, render, 3d, cgi, unrealistic, deformed, disfigured, bad anatomy, extra limbs, floating objects, oversaturated, underexposed, overexposed, noise, grain, out of focus, cropped, worst quality, low resolution, jpeg artifacts"
+  seed: 42
+  num_hypotheses: 3
+  two_pass: true
+  controlnet_conditioning_scale: 0.8
+
+# --- Multi-View ---
+multiview:
+  views:
+    - name: "front"
+      depth_shift: 0.0
+      prompt_suffix: ", front view, eye level"
+    - name: "left"
+      depth_shift: -0.15
+      prompt_suffix: ", viewed from the left side, angled perspective"
+    - name: "right"
+      depth_shift: 0.15
+      prompt_suffix: ", viewed from the right side, angled perspective"
+    - name: "overhead"
+      depth_shift: 0.3
+      prompt_suffix: ", overhead view, looking down, bird's eye"
+
+# --- Data Paths ---
+data:
+  coco_dir: "Data/COCO"
+  visual_genome_dir: "Data/VisualGenome"
+  clevr_dir: "Data/Clevr/CLEVR_v1.0"
+  object_alias_file: "Data/VisualGenome/object_alias.txt"
+  relationship_alias_file: "Data/VisualGenome/relationship_alias.txt"
+  vg_relationships_file: "Data/VisualGenome/relationships.json/relationships.json"
+
+# --- Evaluation ---
+evaluation:
+  clip_threshold: 0.2
+  spatial_consistency_weight: 0.3
+  object_detection_threshold: 0.5
+
+# ============================================================
+#  RESEARCH FRAMEWORK EXTENSIONS
+# ============================================================
+
+# --- Unified Scoring Function S(R) ---
+# S(R) = Σ_i w_i · component_i(R)
+scoring:
+  weights:
+    w_semantic: 0.20       # Semantic alignment (CLIP + object recall + relations)
+    w_spatial: 0.15        # Spatial consistency (layout geometry)
+    w_physical: 0.10       # Physical plausibility (gravity, support, scale)
+    w_visual: 0.15         # Visual realism (aesthetic, noise, sharpness)
+    w_probabilistic: 0.10  # Probabilistic prior (VG learned distributions)
+    w_multiview: 0.10      # Multi-view consistency (cross-view agreement)
+    w_human: 0.20          # Perceptual believability (realism probe)
+
+  # Component-level parameters
+  semantic:
+    clip_weight: 0.5
+    object_recall_weight: 0.3
+    relation_satisfaction_weight: 0.2
+    object_recall_threshold: 0.55
+
+  spatial:
+    relation_violation_weight: 0.35
+    position_ordering_weight: 0.25
+    depth_ordering_weight: 0.20
+    overlap_weight: 0.20
+
+  physical:
+    gravity_weight: 0.25
+    support_weight: 0.25
+    floor_contact_weight: 0.25
+    scale_weight: 0.25
+
+  visual:
+    aesthetic_weight: 0.4
+    noise_weight: 0.3
+    sharpness_weight: 0.3
+
+  probabilistic:
+    use_vg_data: true
+    sigmoid_shift: 1.5
+
+  perceptual:
+    realism_weight: 0.45
+    coherence_weight: 0.35
+    uncanny_weight: 0.20
+    temperature: 10.0
+
+# --- Energy Optimization ---
+# E(R) = -S(R), minimized via SA or ES
+optimization:
+  enabled: true
+  method: "simulated_annealing"  # simulated_annealing | evolutionary | hybrid
+
+  simulated_annealing:
+    T_initial: 1.0
+    T_final: 0.01
+    cooling_rate: 0.995
+    max_iterations: 500
+    position_sigma: 0.05
+    depth_sigma: 0.08
+    scale_sigma: 0.06
+    swap_probability: 0.15
+
+  evolutionary:
+    population_size: 12
+    offspring_count: 18
+    mutation_rate: 0.3
+    crossover_rate: 0.5
+    tournament_size: 3
+    max_generations: 50
+    position_sigma: 0.05
+
+  top_k_candidates: 3
+
+# --- Segmentation Conditioning ---
+segmentation:
+  enabled: true
+  # Blend weights for composite depth+segmentation conditioning
+  depth_weight: 0.6
+  seg_weight: 0.4
+
+# --- Closed-Loop Self-Correction ---
+correction:
+  enabled: true
+  max_iterations: 3
+  improvement_threshold: 0.01  # Stop if improvement < this
+  component_threshold: 0.4     # Flag component if score < this
+
+# --- Weight Calibration ---
+calibration:
+  enabled: false  # Enable for calibration runs
+  method: "bayesian"  # grid_search | bayesian | random_search
+  bayesian_iterations: 50
+  grid_values: [0.05, 0.10, 0.15, 0.20, 0.25]
+  max_grid_configs: 500
+
+# --- Experiments ---
+experiments:
+  enabled: false  # Enable for experiment runs
+  test_scenes:
+    - id: "bedroom_01"
+      text: "Small bedroom. Broken window. Knife on the nightstand. Blood on the floor near the bed."
+      scene_type: "bedroom"
+    - id: "kitchen_02"
+      text: "Kitchen with overturned chair. Open drawer. Shattered glass on the floor."
+      scene_type: "kitchen"
+    - id: "living_room_03"
+      text: "Living room in disarray. Sofa overturned. Lamp on the floor. Blood stain on the carpet."
+      scene_type: "living_room"
+    - id: "bathroom_04"
+      text: "Bathroom. Mirror cracked. Towel on the floor. Water on the tiles."
+      scene_type: "bathroom"
+    - id: "office_05"
+      text: "Office with desk. Computer monitor smashed. Papers scattered. Overturned chair."
+      scene_type: "office"
+
+# --- Ablation ---
+ablation:
+  enabled: false  # Enable for ablation runs
+
+# --- Research Logging ---
+research_logging:
+  enabled: true
+  log_dir: "outputs/research_logs"
+  log_scores: true
+  log_optimization: true
+  log_corrections: true
+  generate_plots: true

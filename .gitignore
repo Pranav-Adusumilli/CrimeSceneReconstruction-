@@ -1,0 +1,38 @@
+# ── Datasets (large, copyrighted) ──
+Data/
+
+# ── Pretrained model weights (large, licensed) ──
+models/
+
+# ── Pipeline outputs (generated, transient) ──
+outputs/
+
+# ── Virtual environments ──
+.venv/
+venv/
+env/
+
+# ── Python cache ──
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# ── Generated PDF report ──
+*.pdf
+
+# ── OS files ──
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# ── IDE / editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Misc ──
+*.log
+*.bak
+*.tmp
